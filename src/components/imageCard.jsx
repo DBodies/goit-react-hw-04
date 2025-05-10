@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+
 import styles from "./imageCard.module.css";
 
 const ImageCard = ({ item, onClick }) => {
@@ -11,9 +11,6 @@ const ImageCard = ({ item, onClick }) => {
   );
 };
 
-ImageCard.propTypes = {
-  item: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
+
 
 export default ImageCard;

@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import Modal from 'react-modal';
 import styles from './imageModal.module.css'
 
@@ -27,10 +26,5 @@ const ImageModal = ({ isOpen, image, onClose }) => {
     );
 };
 
-ImageModal.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    image: PropTypes.object,
-    onClose: PropTypes.func.isRequired,
-};
 
 export default ImageModal;
