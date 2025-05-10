@@ -5,8 +5,9 @@ import { fetchImages } from './key-api'
 import ErrorMessage from './components/message'
 import ImageGallery from './components/imageGallery'
 import Loader from './components/loader'
-import LoadMore from './components/loadmore'
-
+import LoadMoreBtn from './components/loadMoreBtn'
+import ImageModal from './components/imageModal'
+import styles from './App.module.css'
 
 function App() {
 const [images, setImages] = useState([])
@@ -14,7 +15,21 @@ const [query, setQuery] = useState("")
 const [page, setPage] = useState(1)
 const [loading, setLoading] = useState(false)
 const [error,setError] = useState(false)
-const [totalPages, setTotalPages] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedImage, setSelectedImage] = useState(false)
+
+  const openModal = (image) => {
+    console.log("Opening modal with image:", image); // Проверьте, что выводится в консоль
+    setSelectedImage(image);
+    setIsModalOpen(true);
+  };
+  
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
+  
 
   useEffect(() => {
     if(!query) return
@@ -50,19 +65,24 @@ const handleSearch = (newQuery) => {
   setPage(1);
   setImages([]);
 };
-
   
   const handleLoadMore = () => setPage((prev) => prev + 1);
 
+
   return (
-    <div>
+  <div className={styles.mainStyle}>
       <SearchBar onSubmit={handleSearch} />
       {error && <ErrorMessage message="Try again" />}
-      {images.length > 0 && <ImageGallery items={images} />}
+      {images.length > 0 && <ImageGallery items={images} onImageClick={openModal} />}
       {loading && <Loader />}
       {images.length > 0 && !loading && page < totalPages && (
-        <LoadMore onClick={handleLoadMore} />
+        <LoadMoreBtn onClick={handleLoadMore} />
       )}
+      <ImageModal
+        isOpen={isModalOpen}
+        image={selectedImage}
+        onClose={closeModal}
+      />
     </div>
   )
 }
